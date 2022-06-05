@@ -1645,8 +1645,7 @@ if IsInGame["Amumu"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [11.3] Anivia                                                                         |
---| Last Update: 11.03.2021                                                               |
+--| [12.10] Anivia                                                                         |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Anivia"] then
@@ -1666,7 +1665,7 @@ if IsInGame["Anivia"] then
         [SpellSlots.E] = {
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.E).Level
-                local rawDmg = GetDamageByLvl({50, 80, 110, 140, 170}, lvl) + 0.6 * source.TotalAP
+                local rawDmg = GetDamageByLvl({50, 75, 100, 125, 150}, lvl) + 0.6 * source.TotalAP
                 return { RawMagical = rawDmg }
             end,
             ["Empowered"] = function(source, target)
@@ -2635,8 +2634,7 @@ if IsInGame["Darius"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [12.1] Diana                                                                           |
---| Last Update: 04.01.2022                                                                |
+--| [12.10] Diana                                                                          |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Diana"] then
@@ -2658,7 +2656,7 @@ if IsInGame["Diana"] then
         [SpellSlots.E] = {
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.E).Level
-                local rawDmg = GetDamageByLvl({40, 60, 80, 100, 120}, lvl) + 0.4 * source.TotalAP
+                local rawDmg = GetDamageByLvl({50, 760, 90, 110, 130}, lvl) + 0.45 * source.TotalAP
                 return { RawMagical = rawDmg }
             end,
         },
@@ -2712,8 +2710,7 @@ if IsInGame["Diana"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [11.18] Draven                                                                         |
---| Last Update: 09.09.2021                                                                |
+--| [12.10] Draven                                                                         |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Draven"] then
@@ -2721,8 +2718,8 @@ if IsInGame["Draven"] then
         [SpellSlots.Q] = {
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.Q).Level
-                local baseDmg = 35 + 5 * lvl
-                local adDmg = 0.60 + 0.10 * lvl
+                local baseDmg = 40 + 5 * lvl
+                local adDmg = 0.65 + 0.10 * lvl
                 local rawDmg = baseDmg + adDmg * source.BonusAD
                 return { RawPhysical = rawDmg }
             end,
@@ -4720,8 +4717,7 @@ if IsInGame["Katarina"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [11.10] Kayle                                                                          |
---| Last Update: 16.05.2021                                                                |
+--| [12.10] Kayle                                                                          |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Kayle"] then
@@ -4792,7 +4788,7 @@ if IsInGame["Kayle"] then
                 if source:GetBuff("kaylee") then
                     local eLvl = source:GetSpell(SpellSlots.E).Level
                     local missingHealth = aiTarget.MaxHealth - aiTarget.Health
-                    local dmg = (0.07 + 0.01 * eLvl + 0.02 * (source.TotalAP / 100)) * missingHealth
+                    local dmg = (0.075 + 0.005 * eLvl + 0.015 * (source.TotalAP / 100)) * missingHealth
                     dmg = aiTarget.IsMonster and min(400, dmg) or dmg
                     res.FlatMagical = res.FlatMagical + dmg
                 end
@@ -7544,8 +7540,7 @@ if IsInGame["Seraphine"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [11.11] Senna                                                                           |
---| Last Update: 13.06.2021                                                                |
+--| [12.10] Senna                                                                          |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Senna"] then
@@ -7602,7 +7597,7 @@ if IsInGame["Senna"] then
                 local aiTarget = target.AsAI
                 
                 if heroSource and aiTarget and aiTarget:GetBuff("sennapassivemarker") then
-                    local dmg_mod = GetDamageByLvl({1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16}, heroSource.Level)/100
+                    local dmg_mod = min(heroSource.Level/100, 0.1)
                     res.FlatPhysical = res.FlatPhysical + dmg_mod * aiTarget.Health
                 end
             end
@@ -9063,8 +9058,7 @@ if IsInGame["Varus"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [10.24] Vayne                                                                          |
---| Last Update: 24.11.2020                                                                |
+--| [12.10] Vayne                                                                          |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Vayne"] then
@@ -9079,7 +9073,7 @@ if IsInGame["Vayne"] then
         [SpellSlots.W] = {
             ["Default"] = function(source, target)
                 local wLvl = source:GetSpell(SpellSlots.W).Level
-                local wPassivedmg = target.MaxHealth * (0.015 + 0.025 * wLvl)
+                local wPassivedmg = target.MaxHealth * (0.02 + 0.02 * wLvl)
                 local minDmg = 35 + (15 * wLvl)
 
                 wPassivedmg = max(minDmg, wPassivedmg)
