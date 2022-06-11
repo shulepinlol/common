@@ -476,7 +476,7 @@ end
 
 function Sprite:SetScale(x, y)
     if self.ScaleX ~= x or self.ScaleY ~= y then
-        self.Sprite:SetScale(x, y)
+        self.Sprite:SetSize(x, y)
         self.ScaleX = x
         self.ScaleY = y
     end
