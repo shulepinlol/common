@@ -4325,8 +4325,8 @@ if IsInGame["Jhin"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [11.10] Jinx                                                                           |
---| Last Update: 16.05.2021                                                                |
+--| [12.12] Jinx                                                                           |
+--| Last Update: 29.06.2022                                                                |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Jinx"] then
@@ -4349,7 +4349,7 @@ if IsInGame["Jinx"] then
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.R).Level                
                 
-                local baseDamage = GetDamageByLvl({250, 350, 450}, lvl) + 1.5 * source.BonusAD
+                local baseDamage = GetDamageByLvl({250, 400, 550}, lvl) + 1.5 * source.BonusAD
                 local missingHealthDmg = (target.MaxHealth - target.Health) * GetDamageByLvl({0.25, 0.30, 0.35}, lvl)                
                 if target.IsMonster then 
                     missingHealthDmg = min(missingHealthDmg, 800) 
