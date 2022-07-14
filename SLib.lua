@@ -268,7 +268,7 @@ function Common.CreateColorPicker(id, displayText, defaultValue)
 end
 
 function Common.CreateResetButton(module)
-    Menu.SmallButton("SAwareness." .. module .. ".Reset", "    Reset Module Settings    ", function()
+    Menu.SmallButton("SAwareness." .. module .. ".Reset", "Reset Module Settings", function()
         for menuID, item in pairs(Common.MenuData) do
             if string.starts_with(menuID, "SAwareness." .. module) then
                 Menu.Set(menuID, item.defaultValue, true)
