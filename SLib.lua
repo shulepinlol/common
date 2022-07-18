@@ -299,8 +299,8 @@ function Common.DrawRectOutline(pos, thickness, color, rounding)
     local color = color or 0xFFFFFFFF
     local rounding = rounding or 0
     return Renderer.DrawRectOutline(
-        Vector(pos[1] or pos.x, pos[2] or pos.y),
-        Vector(pos[3] or pos.z, pos[4] or pos.w),
+        {x=pos[1] or pos.x, y=pos[2] or pos.y},
+        {x=pos[3] or pos.z, y=pos[4] or pos.w},
         rounding,
         thickness,
         color
@@ -311,8 +311,8 @@ function Common.DrawFilledRect(pos, color, rounding)
     local color = color or 0xFFFFFFFF
     local rounding = rounding or 0
     return Renderer.DrawFilledRect(
-        Vector(pos[1] or pos.x, pos[2] or pos.y),
-        Vector(pos[3] or pos.z, pos[4] or pos.w),
+        {x=pos[1] or pos.x, y=pos[2] or pos.y},
+        {x=pos[3] or pos.z, y=pos[4] or pos.w},
         rounding,
         color
     )
