@@ -3382,8 +3382,7 @@ if IsInGame["Galio"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [12.7] Gangplank                                                                       |
---| Last Update: 24.11.2020                                                                |
+--| [12.14] Gangplank                                                                      |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Gangplank"] then
@@ -3391,14 +3390,17 @@ if IsInGame["Gangplank"] then
         [SpellSlots.Q] = {
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.Q).Level
-                local rawDmg = GetDamageByLvl({20, 45, 70, 95, 120}, lvl) + source.TotalAD
+                local rawDmg = GetDamageByLvl({10, 40, 70, 100, 130}, lvl) + source.TotalAD
                 return { RawPhysical = rawDmg, ApplyOnHit = true, ApplyOnAttack = true }
             end,
         },
         [SpellSlots.E] = {
-            ["Default"] = function(source, target)
-                local lvl = source:GetSpell(SpellSlots.E).Level
-                local rawDmg = GetDamageByLvl({80, 105, 130, 155, 180}, lvl) + source.TotalAD
+            ["Default"] = function(source, target)                
+                local rawDmg = source.TotalAD
+                if target and target.IsHero then
+                    local lvl = source:GetSpell(SpellSlots.E).Level
+                    rawDmg = rawDmg + GetDamageByLvl({75, 105, 135, 165, 195}, lvl)
+                end
                 return { RawPhysical = rawDmg }
             end,
         },
@@ -3424,6 +3426,8 @@ if IsInGame["Gangplank"] then
             end
         },
     }
+
+    -- //TODO: Add Passive
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
@@ -4042,8 +4046,7 @@ if IsInGame["Janna"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [10.24] JarvanIV                                                                       |
---| Last Update: 24.11.2020                                                                |
+--| [12.14] JarvanIV                                                                       |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["JarvanIV"] then
@@ -4051,7 +4054,7 @@ if IsInGame["JarvanIV"] then
         [SpellSlots.Q] = {
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.Q).Level
-                local rawDmg = GetDamageByLvl({90, 130, 170, 210, 250}, lvl) + 1.2 * source.BonusAD
+                local rawDmg = GetDamageByLvl({90, 130, 170, 210, 250}, lvl) + 1.4 * source.BonusAD
                 return { RawPhysical = rawDmg }
             end,
         },
@@ -4997,7 +5000,7 @@ if IsInGame["Kindred"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [12.13] Kled                                                                           |
+--| [12.14] Kled                                                                           |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Kled"] then
@@ -5136,8 +5139,7 @@ if IsInGame["KogMaw"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [12.3] Leblanc                                                                         |
---| Last Update: 08.02.2022                                                                |
+--| [12.14] Leblanc                                                                        |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Leblanc"] then
@@ -5169,7 +5171,7 @@ if IsInGame["Leblanc"] then
         [SpellSlots.W] = {
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.W).Level
-                local rawDmg = GetDamageByLvl({75, 110, 145, 180, 215}, lvl) + 0.6 * source.TotalAP
+                local rawDmg = GetDamageByLvl({75, 115, 155, 195, 235}, lvl) + 0.6 * source.TotalAP
                 local detonationDamage = spellDamages.Leblanc[SpellSlots.Q].Detonation(source, target).RawMagical
                 return { RawMagical = rawDmg + detonationDamage}
             end,
@@ -6359,6 +6361,37 @@ if IsInGame["Nidalee"] then
                 end
             end
         }
+    }
+end
+
+--//////////////////////////////////////////////////////////////////////////////////////////
+--| [12.14] Nilah                                                                          |
+--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+if IsInGame["Nilah"] then
+    spellDamages["Nilah"] = {
+        [SpellSlots.Q] = {
+            ["Default"] = function(source, target)
+                local lvl = source:GetSpell(SpellSlots.Q).Level
+                local rawDmg = 0 + 5*lvl + (0.8 + 0.1*lvl) * source.TotalAD
+                return { RawPhysical = rawDmg * (1+source.CritChance) }
+            end,
+        },
+        [SpellSlots.E] = {
+            ["Default"] = function(source, target)
+                local lvl = source:GetSpell(SpellSlots.E).Level
+                local rawDmg = GetDamageByLvl({65, 90, 115, 140, 165}, lvl) + 0.2 * source.BonusAD
+                return { RawPhysical = rawDmg }
+            end
+        },
+        [SpellSlots.R] = {
+            ["Default"] = function(source, target)
+                local lvl = source:GetSpell(SpellSlots.R).Level
+                local rawDmg = GetDamageByLvl({60, 120, 180}, lvl) + 1.4 * source.BonusAD
+                local burstDmg = GetDamageByLvl({125, 225, 325}, lvl) + 1.2 * source.BonusAD
+                return { RawPhysical = rawDmg+burstDmg }
+            end,
+        },
     }
 end
 
@@ -8543,8 +8576,7 @@ if IsInGame["Taric"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [11.17] Teemo                                                                           |
---| Last Update: 25.08.2021                                                                 |
+--| [12.14] Teemo                                                                          |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Teemo"] then
@@ -8571,7 +8603,7 @@ if IsInGame["Teemo"] then
         [SpellSlots.R] = {
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.R).Level
-                local rawDmg = GetDamageByLvl({50, 81.25, 112.5}, lvl) + 0.125 * source.TotalAP
+                local rawDmg = GetDamageByLvl({50, 81.25, 112.5}, lvl) + 0.1375 * source.TotalAP
                 return { RawPhysical = rawDmg }
             end,
         },
@@ -9937,8 +9969,7 @@ if IsInGame["Yorick"] then
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
---| [12.12] Zeri                                                                           |
---| Last Update: 23.06.2022                                                                |
+--| [12.14] Zeri                                                                           |
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if IsInGame["Zeri"] then
@@ -9947,7 +9978,7 @@ if IsInGame["Zeri"] then
             ["Default"] = function(source, target)
                 local lvl = source:GetSpell(SpellSlots.Q).Level
                 local rawDmg = GetDamageByLvl({8, 11, 14, 17, 20}, lvl)
-                local bonusDmg = GetDamageByLvl({1.10, 1.15, 1.20, 1.25, 1.30}, lvl) * source.TotalAD
+                local bonusDmg = GetDamageByLvl({1.05, 1.10, 1.15, 1.20, 1.25}, lvl) * source.TotalAD
                 return { RawPhysical = rawDmg + bonusDmg, ApplyOnHit = true, ApplyOnAttack = true }
             end,
         },
@@ -9966,6 +9997,8 @@ if IsInGame["Zeri"] then
             end,
         },
     }
+
+    -- //TODO: Add Zeri Passives and R Empower
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
