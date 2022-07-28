@@ -509,16 +509,16 @@ function DamageLib.GetAutoAttackDamage(_source, _target, checkPassives, staticDa
             dmg.Physical = dmg.Physical * 0.75
         end
         if heroSource.CharName == "Zeri" then
+            local lvl_1 = (heroSource.Level - 1)
             local aaDmg = 0
             local charge = heroSource.SecondResource
             if charge < 100 then
-                aaDmg = 10 + (15 / 17) * (heroSource.Level - 1) * (0.7025 + 0.0002 * (heroSource.Level - 1)) + 0.03 * heroSource.TotalAP
-                if target.HealthPercent < 0.35 then
-                    aaDmg = aaDmg * 6
-                end
+                aaDmg = 10 + (15 / 17) * lvl_1 * (0.7025 + 0.0002 * lvl_1) + 0.03 * heroSource.TotalAP
+                if target.Health <= aaDmg * 6 then aaDmg = aaDmg * 6 end
             else
-                local dmgPerPct = 3 + (17 / 17) * (heroSource.Level - 1) * (0.7025 + 0.0002 * (heroSource.Level - 1))
-                aaDmg = 90 + (110 / 17) * (heroSource.Level - 1) * (0.7025 + 0.0175 * (heroSource.Level - 1)) + 0.9 * heroSource.TotalAP + (dmgPerPct / 100 * target.MaxHealth)
+                local dmgPerPct = 1 + (14 / 17) * lvl_1 * (0.7025 + 0.0175 * lvl_1)
+                aaDmg = 90 + (110 / 17) * lvl_1 * (0.7025 + 0.0175 * lvl_1) + 0.9 * heroSource.TotalAP + (dmgPerPct / 100 * target.MaxHealth)
+                if target.IsMonster then aaDmg = min(300, aaDmg) end
             end
             dmg.Magical = aaDmg
             dmg.Physical = 0
@@ -9979,6 +9979,10 @@ if IsInGame["Zeri"] then
                 local lvl = source:GetSpell(SpellSlots.Q).Level
                 local rawDmg = GetDamageByLvl({8, 11, 14, 17, 20}, lvl)
                 local bonusDmg = GetDamageByLvl({1.05, 1.10, 1.15, 1.20, 1.25}, lvl) * source.TotalAD
+                if source:GetBuff("ZeriR") then
+                    local rlvl = source:GetSpell(SpellSlots.R).Level
+                    bonusDmg = bonusDmg + GetDamageByLvl({5, 10, 15}, rlvl) + 0.15 * source.TotalAP
+                end
                 return { RawPhysical = rawDmg + bonusDmg, ApplyOnHit = true, ApplyOnAttack = true }
             end,
         },
@@ -9997,8 +10001,6 @@ if IsInGame["Zeri"] then
             end,
         },
     }
-
-    -- //TODO: Add Zeri Passives and R Empower
 end
 
 --//////////////////////////////////////////////////////////////////////////////////////////
